@@ -1,0 +1,10 @@
+{
+    "name": "figabydo",
+    "entry": "./esa/serverLess.js",
+    "installCommand": "",
+    "buildCommand": "",
+    "assets": {
+        "directory": "./",
+        "notFoundStrategy": "singlePageApplication"
+    }
+}

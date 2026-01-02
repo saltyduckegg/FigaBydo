@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FigaBydo</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1 class="logo">FigaBydo</h1>
+
+        </div>
+        <div class="header-text">
+            <p>一个基于边缘存储和缓存的无服务器图床系统</p>
+        </div>
+        <div>
+            <button>设置</button>
+        </div>
+    </header>
+    <main>
+        <section>
+            <div class="mask hidden" id="mask">
+            </div>
+            <div class="upload-zone" id="upload-zone">
+                <img src="src/upload.svg" id="upload-img">
+                <h2>上传图片</h2>
+                <p>将图片拖放到此处或点击上传</p>
+                <input type="file" id="fileInput">
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>Copyright (c) 2025 saltyduckegg</p>
+        <script src="index.js"></script>
+    </footer>
+</body>
+
+</html>
