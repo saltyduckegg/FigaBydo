@@ -42,7 +42,8 @@ async function handleRequest(request) {
                 headers: {
                     "Content-Type": file.type || "application/octet-stream",
                     "Cache-Control": "public, max-age=120",
-                    "ETag": hash
+                    "ETag": hash,
+                    "Access-Control-Allow-Origin": "*"
                 }
             });
             await cache.put(imageUrl, imageResponse);
