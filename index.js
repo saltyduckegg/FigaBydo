@@ -50,7 +50,7 @@ async function dealFile(file) {
     }
     showImgPreview(file)
     await uploadImg(file)
-    testUrl(data.body)
+    await testUrl(data.body)
 
 
 }
