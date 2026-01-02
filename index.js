@@ -50,7 +50,7 @@ async function dealFile(file) {
     }
     showImgPreview(file)
     await uploadImg(file)
-    await testUrl(data.body)
+
 
 
 }
@@ -72,6 +72,7 @@ async function uploadImg(file) {
     const data = await response.json()
     console.log(data)
     alert(data.body);
+    testUrl(data.body)
 }
 
 async function testUrl(url) {
