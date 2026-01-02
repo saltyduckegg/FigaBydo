@@ -50,6 +50,7 @@ async function dealFile(file) {
     }
     showImgPreview(file)
     await uploadImg(file)
+    testUrl(data.body)
 
 
 }
@@ -73,3 +74,8 @@ async function uploadImg(file) {
     alert(data.body);
 }
 
+async function testUrl(url) {
+    const response = await fetch(url)
+    const data = await response.json()
+    console.log(data)
+}
