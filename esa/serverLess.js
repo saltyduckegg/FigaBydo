@@ -1,7 +1,12 @@
 async function handleRequest(request) {
-    return new Response("Hello World", {
+    const data = {
+        code: 200,
+        message: "上传成功",
+        body: "Hello World (来自 JSON)"
+    };
+    return new Response(JSON.stringify(data), {
         headers: {
-            "content-type": "text/plain;charset=UTF-8",
+            "content-type": "application/json;charset=UTF-8",
         },
     })
 }
