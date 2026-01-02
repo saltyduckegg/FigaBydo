@@ -5,6 +5,10 @@ function bufferToHex(buffer) {
     }).join('');
 }
 
+async function doPut(md5, host) {
+    await cache.put("http://" + host + "/" + md5, new Response("Hello World"));
+}
+
 async function handleRequest(request) {
 
     const formData = await request.formData();
@@ -12,13 +16,15 @@ async function handleRequest(request) {
     const arrayBuffer = await file.arrayBuffer();
     const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
     const md5 = bufferToHex(hashBuffer);
-
+    const host = request.headers.get("Host");
     const data = {
         code: 200,
         message: "上传及计算成功",
-        body: md5,
+        body: "http://" + host + "/" + md5,
         filename: file.name
     };
+
+    await doPut(md5, host);
 
     return new Response(JSON.stringify(data), {
         headers: {
