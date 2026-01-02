@@ -10,7 +10,7 @@ async function handleRequest(request) {
     const formData = await request.formData();
     const file = formData.get("file");
     const arrayBuffer = await file.arrayBuffer();
-    const hashBuffer = await crypto.subtle.digest('MD5', arrayBuffer);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
     const md5 = bufferToHex(hashBuffer);
 
     const data = {
