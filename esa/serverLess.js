@@ -37,7 +37,7 @@ async function handleRequest(request) {
             const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
             const hash = bufferToHex(hashBuffer);
             const host = request.headers.get("Host") || url.host;
-            const imageUrl = `http://${host}/${hash}`;
+            const imageUrl = `https://${host}/${hash}`;
             const imageResponse = new Response(arrayBuffer, {
                 headers: {
                     "Content-Type": file.type || "application/octet-stream",
