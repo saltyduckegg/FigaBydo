@@ -77,6 +77,9 @@ async function uploadImg(file) {
 
 async function testUrl(url) {
     const response = await fetch(url)
-    const data = await response.json()
+    const data = await response.blob()
+    console.log("图片下载成功，大小:", data.size);
     console.log(data)
+    const objectURL = URL.createObjectURL(data);
+    document.getElementById("preview").src = objectURL;
 }
