@@ -1,4 +1,4 @@
-const edgeKV = new EdgeKV({ namespace: "kv" });// 命名空间是 kv
+const edgeKV = new EdgeKV({ namespace: "figabydo_kv" });// 命名空间是 kv
 
 
 function bufferToHex(buffer) {
@@ -44,7 +44,7 @@ async function handleRequest(request) {
                     const imageResponse = new Response(value, {
                         headers: {
                             "Content-Type": `image/${contentType}` || "application/octet-stream",
-                            "Cache-Control": "max-age=300",
+                            "Cache-Control": "max-age=86400",
                             "Access-Control-Allow-Origin": "*"
                         }
                     });
@@ -77,7 +77,7 @@ async function handleRequest(request) {
             const imageResponse = new Response(arrayBuffer, {
                 headers: {
                     "Content-Type": file.type || "application/octet-stream",
-                    "Cache-Control": "max-age=300",
+                    "Cache-Control": "max-age=86400",
                     // "ETag": hash,
                     "Access-Control-Allow-Origin": "*"
                 }
