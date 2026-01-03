@@ -43,7 +43,7 @@ async function handleRequest(request) {
 
                 let getType = { type: "text" };
                 let value = await edgeKV.get(hash, getType);
-                if (value === undefined) {
+                if (!value) {
                     return new Response("提取不到图片 (Cache Miss & EdgeKV Miss)", {
                         status: 404,
                         headers: { "content-type": "text/plain;charset=UTF-8" }
