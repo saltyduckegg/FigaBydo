@@ -30,15 +30,15 @@ async function handleRequest(request) {
             const cachedResponse = await cache.get(imageUrlHttp);
 
             if (cachedResponse) {
-                //return cachedResponse;
-                const testResponse = new Response("Cache Hit", {
-                    headers: {
-                        "Content-Type": "text/plain;charset=UTF-8",
-                        "Cache-Control": "max-age=86400",
-                        "Access-Control-Allow-Origin": "*"
-                    }
-                });
-                return testResponse;
+                return cachedResponse;
+                // const testResponse = new Response("Cache Hit", {
+                //     headers: {
+                //         "Content-Type": "text/plain;charset=UTF-8",
+                //         "Cache-Control": "max-age=86400",
+                //         "Access-Control-Allow-Origin": "*"
+                //     }
+                // });
+                //return testResponse;
             } else {
 
                 let getType = { type: "arrayBuffer" };
