@@ -1,17 +1,20 @@
+const edgeKV = new EdgeKV({ namespace: "kv" });// 命名空间是 kv
+
+
 function bufferToHex(buffer) {
     return [...new Uint8Array(buffer)].map(function (b) {
         return b.toString(16).padStart(2, '0')
     }).join('');
 }
 
-function makeLog(request) {
-    console.log("--- Headers ---");
-    // for (const [key, value] of request.headers) {
-    //     console.log(`${key}: ${value}`);
-    //     alert(`${key}: ${value}`);
-    // }
-    console.log("----------------");
-}
+
+// async function checkCache(key){
+//     const cachedResponse = await cache.get(key);
+//     if (cachedResponse) {
+//         return cachedResponse;
+//     }
+//     return null;
+// }
 
 async function handleRequest(request) {
     const url = new URL(request.url);
@@ -20,27 +23,38 @@ async function handleRequest(request) {
     if (request.method === "GET") {
         try {
             const hash = url.pathname.split("/")[1];
+            const contentType = hash.split(".")[1];
             const host = request.headers.get("Host") || url.host;
             const imageUrl = `https://${host}/${hash}`;
             const imageUrlHttp = `http://${host}/${hash}`;
             const cachedResponse = await cache.get(imageUrlHttp);
 
             if (cachedResponse) {
-                // alert("命中缓存:", imageUrlHttp);
-                console.log("命中缓存:", imageUrlHttp);
-                makeLog(request);
                 return cachedResponse;
             } else {
-                // alert("未命中缓存:", imageUrlHttp);
-                console.log("未命中缓存:", imageUrlHttp);
-                makeLog(request);
-                return new Response("提取不到图片 (Cache Miss)", {
-                    status: 404,
-                    headers: { "content-type": "text/plain;charset=UTF-8" }
-                });
+
+                let getType = { type: "blob" };
+                let value = await edgeKV.get(hash, getType);
+                if (value === undefined) {
+                    return new Response("提取不到图片 (Cache Miss & EdgeKV Miss)", {
+                        status: 404,
+                        headers: { "content-type": "text/plain;charset=UTF-8" }
+                    });
+                } else {
+                    const imageResponse = new Response(value, {
+                        headers: {
+                            "Content-Type": `image/${contentType}` || "application/octet-stream",
+                            "Cache-Control": "max-age=300",
+                            "Access-Control-Allow-Origin": "*"
+                        }
+                    });
+                    await cache.put(imageUrlHttp, imageResponse);
+                    return imageResponse;
+                }
+
             }
         } catch (e) {
-            return new Response("Cache Error: " + e.message, { status: 500 });
+            return new Response("Get Cache Error: " + e.message, { status: 500 });
         }
     }
     if (request.method === "POST") {
@@ -68,7 +82,24 @@ async function handleRequest(request) {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
+            const cachedResponse = await cache.get(imageUrlHttp);
+            if (cachedResponse) {
+                const data = {
+                    code: 200,
+                    message: "Cache Hit",
+                    algo: "SHA-256",
+                    body: imageUrl,
+                    filename: file.name
+                };
+                return new Response(JSON.stringify(data), {
+                    headers: {
+                        "content-type": "application/json;charset=UTF-8",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                });
+            }
             await cache.put(imageUrlHttp, imageResponse);
+            await edgeKV.put(hash + "." + contentType, arrayBuffer);
             const data = {
                 code: 200,
                 message: "上传及计算成功",
@@ -76,7 +107,6 @@ async function handleRequest(request) {
                 body: imageUrl,
                 filename: file.name
             };
-
             return new Response(JSON.stringify(data), {
                 headers: {
                     "content-type": "application/json;charset=UTF-8",
