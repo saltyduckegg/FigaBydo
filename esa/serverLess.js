@@ -6,10 +6,10 @@ function bufferToHex(buffer) {
 
 function makeLog(request) {
     console.log("--- Headers ---");
-    for (const [key, value] of request.headers) {
-        console.log(`${key}: ${value}`);
-        alert(`${key}: ${value}`);
-    }
+    // for (const [key, value] of request.headers) {
+    //     console.log(`${key}: ${value}`);
+    //     alert(`${key}: ${value}`);
+    // }
     console.log("----------------");
 }
 
