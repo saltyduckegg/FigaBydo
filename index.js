@@ -1,7 +1,7 @@
 const uploadZoneEl = document.getElementById('upload-zone')
 const maskEl = document.getElementById('mask');
 const previewZoneEl = document.getElementById('preview-zone');
-let currentFile = null
+let currentFile = null;
 
 // document.addEventListener("dragenter", function (e) {
 //     e.preventDefault()
