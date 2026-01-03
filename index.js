@@ -72,7 +72,7 @@ async function uploadImg(file) {
     const data = await response.json()
     console.log(data)
     alert(data.body);
-    testUrl(data.body)
+    await testUrl(data.body)
 }
 
 async function testUrl(url) {
