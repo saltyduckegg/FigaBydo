@@ -4,6 +4,15 @@ function bufferToHex(buffer) {
     }).join('');
 }
 
+function makeLog(request) {
+    console.log("--- Headers ---");
+    for (const [key, value] of request.headers) {
+        console.log(`${key}: ${value}`);
+        alert(`${key}: ${value}`);
+    }
+    console.log("----------------");
+}
+
 async function handleRequest(request) {
     const url = new URL(request.url);
 
@@ -17,9 +26,14 @@ async function handleRequest(request) {
             const cachedResponse = await cache.get(imageUrlHttp);
 
             if (cachedResponse) {
+                alert("命中缓存:", imageUrlHttp);
                 console.log("命中缓存:", imageUrlHttp);
+                makeLog(request);
                 return cachedResponse;
             } else {
+                alert("未命中缓存:", imageUrlHttp);
+                console.log("未命中缓存:", imageUrlHttp);
+                makeLog(request);
                 return new Response("提取不到图片 (Cache Miss)", {
                     status: 404,
                     headers: { "content-type": "text/plain;charset=UTF-8" }
