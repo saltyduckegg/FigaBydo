@@ -74,15 +74,15 @@ const previewTextContainerEl = document.getElementById("preview-text-container")
 const previewDetailContainerEl = document.getElementById("preview-detail-container")
 const previewFilenameEl = document.getElementById("preview-filename")
 const previewFilesizeEl = document.getElementById("preview-filesize")
-const permanentLinkEl = document.getElementById("permanent-link")
-const temporaryLinkEl = document.getElementById("temporary-link")
+const permanentLinkEl = document.getElementById("https-input")
+const temporaryLinkEl = document.getElementById("http-input")
 
 
 async function permissionToUpload() {
     uploadBtnEl.addEventListener("click", async function () {
         const url = await uploadImg(currentFile)
-        permanentLinkEl.textContent = url
-        temporaryLinkEl.textContent = url.replace("https://", "http://")
+        permanentLinkEl.value = url
+        temporaryLinkEl.value = url.replace("https://", "http://")
         previewFilenameEl.textContent = currentFile.name
         previewFilesizeEl.textContent = currentFile.size
         previewTextContainerEl.classList.toggle("hidden")
