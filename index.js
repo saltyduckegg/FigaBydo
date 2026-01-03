@@ -91,6 +91,14 @@ async function permissionToUpload() {
     })
 }
 
+function copyInput(inputId, btn) {
+    const input = document.getElementById(inputId);
+    input.select();
+    input.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(input.value).then(() => {
+        btn.style.backgroundColor = "#4CAF50";
+    });
+}
 
 
 deleteBtnEl.addEventListener("click", function () {

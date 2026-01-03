@@ -44,10 +44,14 @@
                     <code id="preview-filesize">1MB</code>
                 </div>
                 <div id="preview-text-container" class="hidden">
-                    <label>http link:</label>
-                    <code id="permanent-link">https://example.com/image.png</code>
-                    <label>https link:</label>
-                    <code id="temporary-link">http://example.com/image.png</code>
+                    <div class="link-box">
+                        <input type="text" class="link-input" id="https-input" readonly value="https://...">
+                        <button class="copy-btn" onclick="copyInput('https-input', this)">复制 copy</button>
+                    </div>
+                    <div class="link-box">
+                        <input type="text" class="link-input" id="http-input" readonly value="http://...">
+                        <button class="copy-btn" onclick="copyInput('http-input', this)">复制 copy</button>
+                    </div>
                 </div>
                 <div id="preview-btn-container">
                     <button id="upload-btn">上传<br>upload</button>

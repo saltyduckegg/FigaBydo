@@ -91,7 +91,17 @@ footer {
     width: 10rem;
 }
 
+.link-input {
+    flex: 1;
+    /* border: none;
+    background: transparent;
+    outline: none;
+    width: 100%; */
+}
 
+.copy-btn {
+    cursor: pointer;
+}
 
 #pre-upload-img {
     max-width: 25rem;
