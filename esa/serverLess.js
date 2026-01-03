@@ -33,7 +33,7 @@ async function handleRequest(request) {
                 return cachedResponse;
             } else {
 
-                let getType = { type: "blob" };
+                let getType = { type: "arrayBuffer" };
                 let value = await edgeKV.get(hash, getType);
                 if (value === undefined) {
                     return new Response("提取不到图片 (Cache Miss & EdgeKV Miss)", {
