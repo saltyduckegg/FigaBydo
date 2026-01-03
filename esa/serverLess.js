@@ -48,7 +48,7 @@ async function handleRequest(request) {
             const imageResponse = new Response(arrayBuffer, {
                 headers: {
                     "Content-Type": file.type || "application/octet-stream",
-                    "Cache-Control": "max-age=600",
+                    "Cache-Control": "max-age=6000",
                     // "ETag": hash,
                     "Access-Control-Allow-Origin": "*"
                 }
