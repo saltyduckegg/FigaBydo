@@ -48,8 +48,8 @@ async function handleRequest(request) {
             const imageResponse = new Response(arrayBuffer, {
                 headers: {
                     "Content-Type": file.type || "application/octet-stream",
-                    "Cache-Control": "public, max-age=120",
-                    "ETag": hash,
+                    "Cache-Control": "max-age=120",
+                    // "ETag": hash,
                     "Access-Control-Allow-Origin": "*"
                 }
             });
