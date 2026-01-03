@@ -1,6 +1,7 @@
 const uploadZoneEl = document.getElementById('upload-zone')
 const maskEl = document.getElementById('mask');
 const previewZoneEl = document.getElementById('preview-zone');
+let currentFile = null
 
 // document.addEventListener("dragenter", function (e) {
 //     e.preventDefault()
@@ -51,6 +52,8 @@ async function dealFile(file) {
     }
     changeZone()
     showImgPreview(file)
+    currentFile = file
+    await permissionToUpload()
 }
 
 function changeZone() {
@@ -73,15 +76,22 @@ const previewFilenameEl = document.getElementById("preview-filename")
 const previewFilesizeEl = document.getElementById("preview-filesize")
 const permanentLinkEl = document.getElementById("permanent-link")
 const temporaryLinkEl = document.getElementById("temporary-link")
-uploadBtnEl.addEventListener("click", async function () {
-    const url = await uploadImg(file)
-    permanentLinkEl.textContent = url
-    temporaryLinkEl.textContent = url.replace("https://", "http://")
-    previewFilenameEl.textContent = file.name
-    previewFilesizeEl.textContent = file.size
-    previewTextContainerEl.classList.toggle("hidden")
-    previewDetailContainerEl.classList.toggle("hidden")
-})
+
+
+async function permissionToUpload() {
+    uploadBtnEl.addEventListener("click", async function () {
+        const url = await uploadImg(currentFile)
+        permanentLinkEl.textContent = url
+        temporaryLinkEl.textContent = url.replace("https://", "http://")
+        previewFilenameEl.textContent = currentFile.name
+        previewFilesizeEl.textContent = currentFile.size
+        previewTextContainerEl.classList.toggle("hidden")
+        previewDetailContainerEl.classList.toggle("hidden")
+        uploadBtnEl.removeEventListener("click", permissionToUpload)
+    })
+}
+
+
 
 deleteBtnEl.addEventListener("click", function () {
     previewTextContainerEl.classList.add("hidden")
