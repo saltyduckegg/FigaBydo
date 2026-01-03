@@ -6,8 +6,11 @@ function bufferToHex(buffer) {
 
 async function handleRequest(request) {
     const url = new URL(request.url);
+
+
     if (request.method === "GET") {
         try {
+            const hash = url.pathname.split("/")[1];
             const host = request.headers.get("Host") || url.host;
             const imageUrl = `https://${host}/${hash}`;
             const imageUrlHttp = `http://${host}/${hash}`;
