@@ -8,10 +8,13 @@ async function handleRequest(request) {
     const url = new URL(request.url);
     if (request.method === "GET") {
         try {
-            const cachedResponse = await cache.get(request.url);
+            const host = request.headers.get("Host") || url.host;
+            const imageUrl = `https://${host}/${hash}`;
+            const imageUrlHttp = `http://${host}/${hash}`;
+            const cachedResponse = await cache.get(imageUrlHttp);
 
             if (cachedResponse) {
-                console.log("命中缓存:", request.url);
+                console.log("命中缓存:", imageUrlHttp);
                 return cachedResponse;
             } else {
                 return new Response("提取不到图片 (Cache Miss)", {
@@ -38,6 +41,7 @@ async function handleRequest(request) {
             const hash = bufferToHex(hashBuffer);
             const host = request.headers.get("Host") || url.host;
             const imageUrl = `https://${host}/${hash}`;
+            const imageUrlHttp = `http://${host}/${hash}`;
             const imageResponse = new Response(arrayBuffer, {
                 headers: {
                     "Content-Type": file.type || "application/octet-stream",
@@ -46,7 +50,7 @@ async function handleRequest(request) {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-            await cache.put(imageUrl, imageResponse);
+            await cache.put(imageUrlHttp, imageResponse);
             const data = {
                 code: 200,
                 message: "上传及计算成功",
