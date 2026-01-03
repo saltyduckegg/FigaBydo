@@ -35,9 +35,12 @@ header div {
 
 .header-text {
     width: fit-content;
+    text-align: center;
+    font-size: 0.75rem;
 }
 
-.upload-zone {
+.upload-zone,
+.preview-zone {
     position: relative;
     border: 1px solid #ccc;
     background-color: #f8f8f8;
@@ -86,4 +89,18 @@ footer {
 
 #preview {
     width: 10rem;
+}
+
+
+
+#pre-upload-img {
+    max-width: 25rem;
+    max-height: 15rem;
+    min-width: 5rem;
+    min-height: 5rem;
+    box-shadow: 0 0 1rem #ccc;
+}
+
+#preview-text-container code {
+    display: block;
 }

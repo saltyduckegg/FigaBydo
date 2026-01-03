@@ -1,5 +1,6 @@
 const uploadZoneEl = document.getElementById('upload-zone')
 const maskEl = document.getElementById('mask');
+const previewZoneEl = document.getElementById('preview-zone');
 
 // document.addEventListener("dragenter", function (e) {
 //     e.preventDefault()
@@ -48,19 +49,51 @@ async function dealFile(file) {
         alert("图片大小超过限制")
         return
     }
+    changeZone()
     showImgPreview(file)
-    await uploadImg(file)
+}
 
-
-
+function changeZone() {
+    uploadZoneEl.classList.toggle("hidden")
+    previewZoneEl.classList.toggle("hidden")
 }
 
 function showImgPreview(file) {
     const imgUrl = URL.createObjectURL(file);
     console.log(imgUrl)
-    const imgEl = document.getElementById("upload-img")
+    const imgEl = document.getElementById("pre-upload-img")
     imgEl.src = imgUrl
 }
+const logoEl = document.getElementById("logo")
+const uploadBtnEl = document.getElementById("upload-btn")
+const deleteBtnEl = document.getElementById("delete-btn")
+const previewTextContainerEl = document.getElementById("preview-text-container")
+const previewDetailContainerEl = document.getElementById("preview-detail-container")
+const previewFilenameEl = document.getElementById("preview-filename")
+const previewFilesizeEl = document.getElementById("preview-filesize")
+const permanentLinkEl = document.getElementById("permanent-link")
+const temporaryLinkEl = document.getElementById("temporary-link")
+uploadBtnEl.addEventListener("click", async function () {
+    const url = await uploadImg(file)
+    permanentLinkEl.textContent = url
+    temporaryLinkEl.textContent = url.replace("https://", "http://")
+    previewFilenameEl.textContent = file.name
+    previewFilesizeEl.textContent = file.size
+    previewTextContainerEl.classList.toggle("hidden")
+    previewDetailContainerEl.classList.toggle("hidden")
+})
+
+deleteBtnEl.addEventListener("click", function () {
+    previewTextContainerEl.classList.add("hidden")
+    previewDetailContainerEl.classList.remove("hidden")
+    changeZone()
+})
+logoEl.addEventListener("click", function () {
+    previewTextContainerEl.classList.add("hidden")
+    previewDetailContainerEl.classList.remove("hidden")
+    changeZone()
+})
+
 
 async function uploadImg(file) {
     const formData = new FormData();
@@ -71,8 +104,9 @@ async function uploadImg(file) {
     })
     const data = await response.json()
     console.log(data)
-    alert(data.body);
-    await testUrl(data.body)
+    // alert(data.body);
+    return data.body
+    // await testUrl(data.body)
 }
 
 async function testUrl(url) {

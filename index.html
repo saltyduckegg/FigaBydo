@@ -11,14 +11,14 @@
 <body>
     <header>
         <div>
-            <h1 class="logo">FigaBydo</h1>
+            <h1 class="logo" id="logo">FigaBydo</h1>
 
         </div>
         <div class="header-text">
-            <p>一个基于边缘存储和缓存的无服务器图床系统</p>
+            <p>一个基于边缘存储和缓存的无服务器图床系统<br>a picture host based on edge storage and cache</p>
         </div>
         <div>
-            <button>设置</button>
+            <button class="hidden">设置<br>settings</button>
         </div>
     </header>
     <main>
@@ -29,8 +29,31 @@
                 <img src="src/upload.svg" id="upload-img">
                 <h2>上传图片</h2>
                 <p>将图片拖放到此处或点击上传</p>
-                <input type="file" id="fileInput">
-                <img src="d3e62098fcc5f6509594a6ef59812a41ba6d2a24c66a8ff8dab0c680cb4a2271.png" id="preview">
+                <p>drag and drop</p>
+                <input type="file" class="hidden" id="fileInput">
+                <!-- <img src="d3e62098fcc5f6509594a6ef59812a41ba6d2a24c66a8ff8dab0c680cb4a2271.png" id="preview"> -->
+            </div>
+            <div class="preview-zone hidden" id="preview-zone">
+                <img src="src/upload.svg" id="pre-upload-img">
+                <h2>预览 preview</h2>
+                <div id="preview-detail-container" class="">
+                    <label>文件名:</label>
+                    <code id="preview-filename">image.png</code>
+                    <br>
+                    <label>文件大小:</label>
+                    <code id="preview-filesize">1MB</code>
+                </div>
+                <div id="preview-text-container" class="hidden">
+                    <label>http link:</label>
+                    <code id="permanent-link">https://example.com/image.png</code>
+                    <label>https link:</label>
+                    <code id="temporary-link">http://example.com/image.png</code>
+                </div>
+                <div id="preview-btn-container">
+                    <button id="upload-btn">上传<br>upload</button>
+                    <button id="delete-btn">删除<br>delete</button>
+                </div>
+                <!-- <img src="d3e62098fcc5f6509594a6ef59812a41ba6d2a24c66a8ff8dab0c680cb4a2271.png" id="preview"> -->
             </div>
         </section>
     </main>
