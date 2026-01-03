@@ -41,7 +41,7 @@ async function handleRequest(request) {
                 return testResponse;
             } else {
 
-                let getType = { type: "text" };
+                let getType = { type: "arrayBuffer" };
                 let value = await edgeKV.get(hash, getType);
                 if (!value) {
                     return new Response("提取不到图片 (Cache Miss & EdgeKV Miss)", {
@@ -49,11 +49,28 @@ async function handleRequest(request) {
                         headers: { "content-type": "text/plain;charset=UTF-8" }
                     });
                 } else {
+                    const valType = typeof value;
+                    const valSize = value?.byteLength ?? value?.length ?? "unknown";
+                    let valPreview = "cannot preview";
+                    try {
+                        if (valType === 'string') {
+                            valPreview = value.substring(0, 20).replace(/[^\x20-\x7E]/g, '?');
+                        } else if (value instanceof ArrayBuffer) {
+                            valPreview = `[ArrayBuffer of ${valSize} bytes]`;
+                        } else {
+                            valPreview = String(value).substring(0, 20);
+                        }
+                    } catch (e) { }
+
                     const imageResponse = new Response(value, {
                         headers: {
                             "Content-Type": `image/${contentType}` || "application/octet-stream",
                             "Cache-Control": "max-age=86400",
-                            "Access-Control-Allow-Origin": "*"
+                            "Access-Control-Allow-Origin": "*",
+                            "X-Lzz-Debug-Type": valType,
+                            "X-Lzz-Debug-Is-Buffer": String(value instanceof ArrayBuffer),
+                            "X-Lzz-Debug-Size": String(valSize),
+                            "X-Lzz-Debug-Preview": valPreview
                         }
                     });
                     await cache.put(imageUrlHttp, imageResponse.clone());
