@@ -56,7 +56,7 @@ async function handleRequest(request) {
                             "Access-Control-Allow-Origin": "*"
                         }
                     });
-                    await cache.put(imageUrlHttp, imageResponse);
+                    await cache.put(imageUrlHttp, imageResponse.clone());
                     return imageResponse;
                 }
 
@@ -106,7 +106,7 @@ async function handleRequest(request) {
                     },
                 });
             }
-            await cache.put(imageUrlHttp, imageResponse);
+            await cache.put(imageUrlHttp, imageResponse.clone());
             await edgeKV.put(hash + "." + contentType, arrayBuffer);
             const data = {
                 code: 200,
